@@ -5,32 +5,37 @@ HayesFDNReverbAudioProcessorEditor::HayesFDNReverbAudioProcessorEditor(HayesFDNR
 :   AudioProcessorEditor { &p }
 ,   audioProcessor { p }
 {
-    mTimeLabel.setText("Time", juce::NotificationType::dontSendNotification);
-    mFeedbackLabel.setText("Feedback", juce::NotificationType::dontSendNotification);
-    mGainLabel.setText("Gain", juce::NotificationType::dontSendNotification);
+    addAllGUIComponents();
+}
 
-    mTimeLabel.setJustificationType(juce::Justification::centred);
-    mFeedbackLabel.setJustificationType(juce::Justification::centred);
-    mGainLabel.setJustificationType(juce::Justification::centred);
+void HayesFDNReverbAudioProcessorEditor::addAllGUIComponents()
+{
+    timeLabel.setText("Time", juce::NotificationType::dontSendNotification);
+    feedbackLabel.setText("Feedback", juce::NotificationType::dontSendNotification);
+    gainLabel.setText("Gain", juce::NotificationType::dontSendNotification);
 
-    addAndMakeVisible(mTimeLabel);
-    addAndMakeVisible(mFeedbackLabel);
-    addAndMakeVisible(mGainLabel);
+    timeLabel.setJustificationType(juce::Justification::centred);
+    feedbackLabel.setJustificationType(juce::Justification::centred);
+    gainLabel.setJustificationType(juce::Justification::centred);
+
+    addAndMakeVisible(timeLabel);
+    addAndMakeVisible(feedbackLabel);
+    addAndMakeVisible(gainLabel);
 
     using Attachment = juce::AudioProcessorValueTreeState::SliderAttachment;
-    
+
     for (int i = 0; i < DELAY_LINE_COUNT; ++i)
     {
-        mTimeSliders[i].setSliderStyle(      juce::Slider::RotaryHorizontalVerticalDrag);
-        mFeedbackSliders[i].setSliderStyle(  juce::Slider::RotaryHorizontalVerticalDrag);
-        mGainSliders[i].setSliderStyle(      juce::Slider::RotaryHorizontalVerticalDrag);
-        mTimeSliders[i].setTextBoxStyle(     juce::Slider::TextBoxBelow, false, 70, 20);
-        mFeedbackSliders[i].setTextBoxStyle( juce::Slider::TextBoxBelow, false, 70, 20);
-        mGainSliders[i].setTextBoxStyle(     juce::Slider::TextBoxBelow, false, 70, 20);
-        
-        addAndMakeVisible(mTimeSliders[i]);
-        addAndMakeVisible(mFeedbackSliders[i]);
-        addAndMakeVisible(mGainSliders[i]);
+        timeSliders[i].setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
+        feedbackSliders[i].setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
+        gainSliders[i].setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
+        timeSliders[i].setTextBoxStyle(juce::Slider::TextBoxBelow, false, 70, 20);
+        feedbackSliders[i].setTextBoxStyle(juce::Slider::TextBoxBelow, false, 70, 20);
+        gainSliders[i].setTextBoxStyle(juce::Slider::TextBoxBelow, false, 70, 20);
+
+        addAndMakeVisible(timeSliders[i]);
+        addAndMakeVisible(feedbackSliders[i]);
+        addAndMakeVisible(gainSliders[i]);
     }
 
     image = juce::ImageCache::getFromMemory(BinaryData::bg_file_jpg, BinaryData::bg_file_jpgSize);
@@ -38,11 +43,12 @@ HayesFDNReverbAudioProcessorEditor::HayesFDNReverbAudioProcessorEditor(HayesFDNR
 
     for (int i = 0; i < DELAY_LINE_COUNT; ++i)
     {
-        mTimeAttachment[i] = std::make_unique<Attachment>(audioProcessor.mState, "time" + std::to_string(i), mTimeSliders[i]);
-        mFeedbackAttachment[i] = std::make_unique<Attachment>(audioProcessor.mState, "feedback" + std::to_string(i), mFeedbackSliders[i]);
-        mGainAttachment[i] = std::make_unique<Attachment>(audioProcessor.mState, "gain" + std::to_string(i), mGainSliders[i]);
+        timeAttachment[i] = std::make_unique<Attachment>(audioProcessor.apvts, "time" + std::to_string(i), timeSliders[i]);
+        feedbackAttachment[i] = std::make_unique<Attachment>(audioProcessor.apvts, "feedback" + std::to_string(i), feedbackSliders[i]);
+        gainAttachment[i] = std::make_unique<Attachment>(audioProcessor.apvts, "gain" + std::to_string(i), gainSliders[i]);
     }
 }
+
 
 void HayesFDNReverbAudioProcessorEditor::paint(juce::Graphics& g)
 {
@@ -51,15 +57,15 @@ void HayesFDNReverbAudioProcessorEditor::paint(juce::Graphics& g)
 
 void HayesFDNReverbAudioProcessorEditor::resized()
 {
-    mTimeLabel.setBounds(25, 0, 70, 20);
-    mFeedbackLabel.setBounds(165, 0, 70, 20);
-    mGainLabel.setBounds(305, 0, 70, 20);
+    timeLabel.setBounds(25, 0, 70, 20);
+    feedbackLabel.setBounds(165, 0, 70, 20);
+    gainLabel.setBounds(305, 0, 70, 20);
 
     for (int i = 0; i < DELAY_LINE_COUNT; ++i)
     {
         int y = i * 100 + 25;
-        mTimeSliders[i].setBounds(20, y, 80, 80);
-        mFeedbackSliders[i].setBounds(160, y, 80, 80);
-        mGainSliders[i].setBounds(300, y, 80, 80);
+        timeSliders[i].setBounds(20, y, 80, 80);
+        feedbackSliders[i].setBounds(160, y, 80, 80);
+        gainSliders[i].setBounds(300, y, 80, 80);
     }
 }

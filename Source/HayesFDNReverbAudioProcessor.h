@@ -24,7 +24,7 @@ public:
     bool acceptsMidi() const override { return false; }
     bool producesMidi() const override { return false; }
     bool isMidiEffect() const override { return false; }
-    double getTailLengthSeconds() const override { return 12.0; }
+    double getTailLengthSeconds() const override { return 2.0; }
 
     int getNumPrograms() override { return 1; }
     int getCurrentProgram() override { return 0; }
@@ -36,7 +36,7 @@ public:
     void setStateInformation(const void* data, int sizeInBytes) override;
     void parameterChanged(const juce::String& parameterID, float newValue) override;
 
-    juce::AudioProcessorValueTreeState mState;
+    juce::AudioProcessorValueTreeState apvts;
 
 private:
     void writeToDelayBuffer(juce::AudioSampleBuffer& buffer, int delayLineIndex,
@@ -54,15 +54,15 @@ private:
     juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
 
     juce::dsp::ProcessorDuplicator<juce::dsp::IIR::Filter<float>, juce::dsp::IIR::Coefficients<float>> allPassFilters[DIFFUSER_COUNT];
-    juce::Atomic<float>     mGains[DELAY_LINE_COUNT] { -18.0f };
-    juce::Atomic<float>     mTimes[DELAY_LINE_COUNT] { 200.0f };
-    juce::Atomic<float>     mFeedbacks[DELAY_LINE_COUNT] { -18.0f };
-    juce::AudioSampleBuffer mDelayBuffers[DELAY_LINE_COUNT];
-    float                   mLastInputGain[DELAY_LINE_COUNT] { 0.0f };
-    float                   mLastFeedbackGain[DELAY_LINE_COUNT] { 0.0f };
-    int                     mWritePos[DELAY_LINE_COUNT] { 0 };
-    int                     mExpectedReadPos[DELAY_LINE_COUNT] { -1 };
-    double                  mSampleRate { 0 };
+    juce::Atomic<float>     gains[DELAY_LINE_COUNT] { 0.0f, -100.0f, -100.0f, -100.0f, -100.0f, -100.0f, -100.0f, -100.0f };
+    juce::Atomic<float>     times[DELAY_LINE_COUNT] { 30.0f, 60.0f, 90.0f, 120.0f, 150.0f, 180.0f, 210.0f, 240.0f };
+    juce::Atomic<float>     feedbacks[DELAY_LINE_COUNT] { -18.0f, -18.0f, -18.0f, -18.0f, -18.0f, -18.0f, -18.0f, -18.0f };
+    juce::AudioSampleBuffer delayBuffers[DELAY_LINE_COUNT];
+    float                   lastInputGain[DELAY_LINE_COUNT] { -100.0f };
+    float                   lastFeedbackGain[DELAY_LINE_COUNT] { -18.0f };
+    int                     writePos[DELAY_LINE_COUNT] { 0 };
+    int                     expectedReadPos[DELAY_LINE_COUNT] { -1 };
+    double                  currentSampleRate { 0 };
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(HayesFDNReverbAudioProcessor)
 };
