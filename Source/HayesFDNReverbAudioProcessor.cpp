@@ -5,12 +5,14 @@
 HayesFDNReverbAudioProcessor::HayesFDNReverbAudioProcessor()
 :   apvts { *this, nullptr, "HayesDelayParameters", createParameterLayout() }
 {
+    apvts.addParameterListener("numdelaylines", this);
     for (int i = 0; i < DELAY_LINE_COUNT; ++i)
     {
         apvts.addParameterListener("time" + std::to_string(i), this);
         apvts.addParameterListener("feedback" + std::to_string(i), this);
         apvts.addParameterListener("mix" + std::to_string(i), this);
     }
+
 }
 
 void HayesFDNReverbAudioProcessor::prepareToPlay(double sampleRate, int samplesPerBlock)
@@ -33,7 +35,7 @@ void HayesFDNReverbAudioProcessor::prepareToPlay(double sampleRate, int samplesP
 
 void HayesFDNReverbAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& /*midiMessages*/)
 {
-    juce::AudioBuffer<float> dryBuffer;
+    juce::AudioBuffer<float> dryBuffer; // copying the dry buffer to be mixed back in later based on mix knob value
     dryBuffer.makeCopyOf(buffer, true);
     
     if (Bus* inputBus = getBus(true, 0))
@@ -48,7 +50,8 @@ void HayesFDNReverbAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer
         }
 
         //Delay lines
-        for (int j = 0; j < DELAY_LINE_COUNT; ++j)
+        const int activeLines = numActiveDelayLines.get();
+        for (int j = 0; j < activeLines; ++j)
         {
             const float gain = juce::Decibels::decibelsToGain(wetMix[j].get());
             const float time = times[j].get();
@@ -189,7 +192,13 @@ void HayesFDNReverbAudioProcessor::setStateInformation(const void* data, int siz
 }
 
 void HayesFDNReverbAudioProcessor::parameterChanged(const juce::String& parameterID, float newValue)
-{
+{ 
+    if (parameterID == juce::String("numdelaylines"))
+    {
+        numActiveDelayLines = static_cast<int>(std::round(newValue));
+        return;
+    }
+
     for (int i = 0; i < DELAY_LINE_COUNT; ++i)
     {
         if (parameterID == juce::String("time" + std::to_string(i)))
@@ -212,9 +221,10 @@ juce::AudioProcessorValueTreeState::ParameterLayout HayesFDNReverbAudioProcessor
 
         layout.add(std::make_unique<juce::AudioParameterFloat>(juce::ParameterID { tstr, 1 }, "Time", makeLogarithmicRange(0.0f, 2000.0f), 30.0f * (i + 1)));
         layout.add(std::make_unique<juce::AudioParameterFloat>(juce::ParameterID { fstr, 1 }, "Feedback", -100.0f, -1.0f, -25.0f));
-        layout.add(std::make_unique<juce::AudioParameterFloat>(juce::ParameterID { gstr, 1 }, "mix", 0.0f, 1.0f, 0.1f));
-
+        layout.add(std::make_unique<juce::AudioParameterFloat>(juce::ParameterID { gstr, 1 }, "Mix", 0.0f, 1.0f, 0.10f));
     }
+    layout.add(std::make_unique<juce::AudioParameterChoice>(juce::ParameterID{ "numdelaylines", 1 }, "NumDelayLines", 
+                                                           juce::StringArray { "1", "2", "3", "4", "5", "6", "7", "8" }, 8));
     return layout;
 }
 

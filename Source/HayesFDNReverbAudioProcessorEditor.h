@@ -7,12 +7,14 @@
 #include "PercentSlider.h"
 
 class HayesFDNReverbAudioProcessorEditor  : public juce::AudioProcessorEditor
+                                          , public juce::ComboBox::Listener
 {
 public:
     HayesFDNReverbAudioProcessorEditor (HayesFDNReverbAudioProcessor&);
 
     void paint (juce::Graphics&) override;
     void resized() override;
+    void comboBoxChanged(juce::ComboBox* comboBoxThatChanged) override;
 
 private:
     void addAllGUIComponents();
@@ -21,14 +23,17 @@ private:
  
     juce::Image image;
 
+    juce::ComboBox numDelayLinesBox;
     LogMsSlider timeSliders[DELAY_LINE_COUNT];
     DbSlider feedbackSliders[DELAY_LINE_COUNT];
     PercentSlider mixSliders[DELAY_LINE_COUNT];
 
+    juce::Label numDelayLinesLabel;
     juce::Label timeLabel;
     juce::Label feedbackLabel;
     juce::Label mixLabel;
 
+    std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment> numDelayLinesAttachment;
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> timeAttachment[DELAY_LINE_COUNT];
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> feedbackAttachment[DELAY_LINE_COUNT];
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> mixAttachment[DELAY_LINE_COUNT];

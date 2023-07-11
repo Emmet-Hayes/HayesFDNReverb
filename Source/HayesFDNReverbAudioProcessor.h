@@ -57,6 +57,7 @@ private:
     juce::Atomic<float>     wetMix[DELAY_LINE_COUNT] { 0.0f };
     juce::Atomic<float>     times[DELAY_LINE_COUNT] { 45.0f, 64.0f, 72.0f, 120.0f, 142.0f, 184.0f, 212.0f, 256.0f };
     juce::Atomic<float>     feedbacks[DELAY_LINE_COUNT] { -18.0f, -18.0f, -18.0f, -18.0f, -18.0f, -18.0f, -18.0f, -18.0f };
+    juce::Atomic<int>       numActiveDelayLines { 8 };
     juce::AudioSampleBuffer delayBuffers[DELAY_LINE_COUNT];
     float                   lastInputGain[DELAY_LINE_COUNT] { -100.0f };
     float                   lastFeedbackGain[DELAY_LINE_COUNT] { -18.0f };
