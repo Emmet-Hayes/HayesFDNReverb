@@ -8,6 +8,7 @@
       <FILE id="d2JSQ9" name="bg_file.jpg" compile="0" resource="1" file="Images/bg_file.jpg"/>
     </GROUP>
     <GROUP id="{F48C9E40-ADB3-C6B7-FAFF-8DEC911C2817}" name="Source">
+      <FILE id="QzVyjh" name="PercentSlider.h" compile="0" resource="0" file="Source/PercentSlider.h"/>
       <FILE id="mF4Whn" name="Utilities.h" compile="0" resource="0" file="Source/Utilities.h"/>
       <FILE id="Z20AMH" name="DbSlider.h" compile="0" resource="0" file="Source/DbSlider.h"/>
       <FILE id="puKNCF" name="LogMsSlider.h" compile="0" resource="0" file="Source/LogMsSlider.h"/>

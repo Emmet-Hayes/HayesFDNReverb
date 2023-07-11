@@ -12,15 +12,15 @@ void HayesFDNReverbAudioProcessorEditor::addAllGUIComponents()
 {
     timeLabel.setText("Time", juce::NotificationType::dontSendNotification);
     feedbackLabel.setText("Feedback", juce::NotificationType::dontSendNotification);
-    gainLabel.setText("Gain", juce::NotificationType::dontSendNotification);
+    mixLabel.setText("Mix", juce::NotificationType::dontSendNotification);
 
     timeLabel.setJustificationType(juce::Justification::centred);
     feedbackLabel.setJustificationType(juce::Justification::centred);
-    gainLabel.setJustificationType(juce::Justification::centred);
+    mixLabel.setJustificationType(juce::Justification::centred);
 
     addAndMakeVisible(timeLabel);
     addAndMakeVisible(feedbackLabel);
-    addAndMakeVisible(gainLabel);
+    addAndMakeVisible(mixLabel);
 
     using Attachment = juce::AudioProcessorValueTreeState::SliderAttachment;
 
@@ -28,14 +28,14 @@ void HayesFDNReverbAudioProcessorEditor::addAllGUIComponents()
     {
         timeSliders[i].setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
         feedbackSliders[i].setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
-        gainSliders[i].setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
+        mixSliders[i].setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
         timeSliders[i].setTextBoxStyle(juce::Slider::TextBoxBelow, false, 70, 20);
         feedbackSliders[i].setTextBoxStyle(juce::Slider::TextBoxBelow, false, 70, 20);
-        gainSliders[i].setTextBoxStyle(juce::Slider::TextBoxBelow, false, 70, 20);
+        mixSliders[i].setTextBoxStyle(juce::Slider::TextBoxBelow, false, 70, 20);
 
         addAndMakeVisible(timeSliders[i]);
         addAndMakeVisible(feedbackSliders[i]);
-        addAndMakeVisible(gainSliders[i]);
+        addAndMakeVisible(mixSliders[i]);
     }
 
     image = juce::ImageCache::getFromMemory(BinaryData::bg_file_jpg, BinaryData::bg_file_jpgSize);
@@ -45,10 +45,9 @@ void HayesFDNReverbAudioProcessorEditor::addAllGUIComponents()
     {
         timeAttachment[i] = std::make_unique<Attachment>(audioProcessor.apvts, "time" + std::to_string(i), timeSliders[i]);
         feedbackAttachment[i] = std::make_unique<Attachment>(audioProcessor.apvts, "feedback" + std::to_string(i), feedbackSliders[i]);
-        gainAttachment[i] = std::make_unique<Attachment>(audioProcessor.apvts, "gain" + std::to_string(i), gainSliders[i]);
+        mixAttachment[i] = std::make_unique<Attachment>(audioProcessor.apvts, "mix" + std::to_string(i), mixSliders[i]);
     }
 }
-
 
 void HayesFDNReverbAudioProcessorEditor::paint(juce::Graphics& g)
 {
@@ -59,13 +58,13 @@ void HayesFDNReverbAudioProcessorEditor::resized()
 {
     timeLabel.setBounds(25, 0, 70, 20);
     feedbackLabel.setBounds(165, 0, 70, 20);
-    gainLabel.setBounds(305, 0, 70, 20);
+    mixLabel.setBounds(305, 0, 70, 20);
 
     for (int i = 0; i < DELAY_LINE_COUNT; ++i)
     {
         int y = i * 100 + 25;
         timeSliders[i].setBounds(20, y, 80, 80);
         feedbackSliders[i].setBounds(160, y, 80, 80);
-        gainSliders[i].setBounds(300, y, 80, 80);
+        mixSliders[i].setBounds(300, y, 80, 80);
     }
 }

@@ -4,6 +4,7 @@
 #include "HayesFDNReverbAudioProcessor.h"
 #include "DbSlider.h"
 #include "LogMsSlider.h"
+#include "PercentSlider.h"
 
 class HayesFDNReverbAudioProcessorEditor  : public juce::AudioProcessorEditor
 {
@@ -22,15 +23,15 @@ private:
 
     LogMsSlider timeSliders[DELAY_LINE_COUNT];
     DbSlider feedbackSliders[DELAY_LINE_COUNT];
-    DbSlider gainSliders[DELAY_LINE_COUNT];
+    PercentSlider mixSliders[DELAY_LINE_COUNT];
 
-    juce::Label gainLabel;
     juce::Label timeLabel;
     juce::Label feedbackLabel;
+    juce::Label mixLabel;
 
-    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> gainAttachment[DELAY_LINE_COUNT];
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> timeAttachment[DELAY_LINE_COUNT];
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> feedbackAttachment[DELAY_LINE_COUNT];
+    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> mixAttachment[DELAY_LINE_COUNT];
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (HayesFDNReverbAudioProcessorEditor)
 };

@@ -28,9 +28,9 @@ public:
 
     int getNumPrograms() override { return 1; }
     int getCurrentProgram() override { return 0; }
-    void setCurrentProgram(int index) override {}
-    const juce::String getProgramName(int index) override { return JucePlugin_Name; }
-    void changeProgramName(int index, const juce::String& newName) override {}
+    void setCurrentProgram(int /*index*/) override {}
+    const juce::String getProgramName(int /*index*/) override { return JucePlugin_Name; }
+    void changeProgramName(int /*index*/, const juce::String& /*newName*/) override {}
 
     void getStateInformation(juce::MemoryBlock& destData) override;
     void setStateInformation(const void* data, int sizeInBytes) override;
@@ -54,8 +54,8 @@ private:
     juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
 
     juce::dsp::ProcessorDuplicator<juce::dsp::IIR::Filter<float>, juce::dsp::IIR::Coefficients<float>> allPassFilters[DIFFUSER_COUNT];
-    juce::Atomic<float>     gains[DELAY_LINE_COUNT] { 0.0f, -100.0f, -100.0f, -100.0f, -100.0f, -100.0f, -100.0f, -100.0f };
-    juce::Atomic<float>     times[DELAY_LINE_COUNT] { 30.0f, 60.0f, 90.0f, 120.0f, 150.0f, 180.0f, 210.0f, 240.0f };
+    juce::Atomic<float>     wetMix[DELAY_LINE_COUNT] { 0.0f };
+    juce::Atomic<float>     times[DELAY_LINE_COUNT] { 45.0f, 64.0f, 72.0f, 120.0f, 142.0f, 184.0f, 212.0f, 256.0f };
     juce::Atomic<float>     feedbacks[DELAY_LINE_COUNT] { -18.0f, -18.0f, -18.0f, -18.0f, -18.0f, -18.0f, -18.0f, -18.0f };
     juce::AudioSampleBuffer delayBuffers[DELAY_LINE_COUNT];
     float                   lastInputGain[DELAY_LINE_COUNT] { -100.0f };

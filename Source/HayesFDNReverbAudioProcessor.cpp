@@ -9,7 +9,7 @@ HayesFDNReverbAudioProcessor::HayesFDNReverbAudioProcessor()
     {
         apvts.addParameterListener("time" + std::to_string(i), this);
         apvts.addParameterListener("feedback" + std::to_string(i), this);
-        apvts.addParameterListener("gain" + std::to_string(i), this);
+        apvts.addParameterListener("mix" + std::to_string(i), this);
     }
 }
 
@@ -25,14 +25,17 @@ void HayesFDNReverbAudioProcessor::prepareToPlay(double sampleRate, int samplesP
 
     for (int i = 0; i < DELAY_LINE_COUNT; ++i)
     {
-        delayBuffers[i].setSize(getTotalNumOutputChannels(), TAIL_LENGTH * (samplesPerBlock + sampleRate), false, false);
+        delayBuffers[i].setSize(getTotalNumOutputChannels(), static_cast<int>(TAIL_LENGTH * (samplesPerBlock + sampleRate)), false, false);
         delayBuffers[i].clear();
         expectedReadPos[i] = -1;
     }
 }
 
-void HayesFDNReverbAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
+void HayesFDNReverbAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& /*midiMessages*/)
 {
+    juce::AudioBuffer<float> dryBuffer;
+    dryBuffer.makeCopyOf(buffer, true);
+    
     if (Bus* inputBus = getBus(true, 0))
     {
         // Diffusion
@@ -47,19 +50,15 @@ void HayesFDNReverbAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer
         //Delay lines
         for (int j = 0; j < DELAY_LINE_COUNT; ++j)
         {
-            const float gain = juce::Decibels::decibelsToGain(gains[j].get());
+            const float gain = juce::Decibels::decibelsToGain(wetMix[j].get());
             const float time = times[j].get();
             const float feedback = juce::Decibels::decibelsToGain(feedbacks[j].get());
-
 
             for (int i = 0; i < delayBuffers[j].getNumChannels(); ++i) // write original to delay
             {
                 const int inputChannelNum = inputBus->getChannelIndexInProcessBlockBuffer(std::min(i, inputBus->getNumberOfChannels()));
                 writeToDelayBuffer(buffer, j, inputChannelNum, i, writePos[j], 1.0f, 1.0f, true);
             }
-
-            buffer.applyGainRamp(0, buffer.getNumSamples(), lastInputGain[j], gain); // adapt dry gain
-            lastInputGain[j] = gain;
 
             auto readPos = juce::roundToInt(writePos[j] - (currentSampleRate * time / 1000.0)); // read delayed signal
             if (readPos < 0)
@@ -101,33 +100,39 @@ void HayesFDNReverbAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer
             expectedReadPos[j] = readPos + buffer.getNumSamples();
             if (expectedReadPos[j] >= delayBuffers[j].getNumSamples())
                 expectedReadPos[j] -= delayBuffers[j].getNumSamples();
+                
+            for (int channel = 0; channel < buffer.getNumChannels(); ++channel)
+            {
+                buffer.applyGain(channel, 0, buffer.getNumSamples(), wetMix[j].get());
+                buffer.addFromWithRamp(channel, 0, dryBuffer.getReadPointer(channel), dryBuffer.getNumSamples(), 1.0f - wetMix[j].get(), 1.0f - wetMix[j].get());
+            }
         }
     }
 }
 
 void HayesFDNReverbAudioProcessor::writeToDelayBuffer(juce::AudioSampleBuffer& buffer, int delayLineIndex,
     const int channelIn, const int channelOut,
-    const int writePos, float startGain, float endGain, bool replacing)
+    const int writePosition, float startGain, float endGain, bool replacing)
 {
-    if (writePos + buffer.getNumSamples() <= delayBuffers[delayLineIndex].getNumSamples())
+    if (writePosition + buffer.getNumSamples() <= delayBuffers[delayLineIndex].getNumSamples())
     {
         if (replacing)
-            delayBuffers[delayLineIndex].copyFromWithRamp(channelOut, writePos, buffer.getReadPointer(channelIn), buffer.getNumSamples(), startGain, endGain);
+            delayBuffers[delayLineIndex].copyFromWithRamp(channelOut, writePosition, buffer.getReadPointer(channelIn), buffer.getNumSamples(), startGain, endGain);
         else
-            delayBuffers[delayLineIndex].addFromWithRamp(channelOut, writePos, buffer.getReadPointer(channelIn), buffer.getNumSamples(), startGain, endGain);
+            delayBuffers[delayLineIndex].addFromWithRamp(channelOut, writePosition, buffer.getReadPointer(channelIn), buffer.getNumSamples(), startGain, endGain);
     }
     else
     {
-        const auto midPos = delayBuffers[delayLineIndex].getNumSamples() - writePos;
+        const auto midPos = delayBuffers[delayLineIndex].getNumSamples() - writePosition;
         const auto midGain = juce::jmap(float(midPos) / buffer.getNumSamples(), startGain, endGain);
         if (replacing)
         {
-            delayBuffers[delayLineIndex].copyFromWithRamp(channelOut, writePos, buffer.getReadPointer(channelIn), midPos, startGain, midGain);
+            delayBuffers[delayLineIndex].copyFromWithRamp(channelOut, writePosition, buffer.getReadPointer(channelIn), midPos, startGain, midGain);
             delayBuffers[delayLineIndex].copyFromWithRamp(channelOut, 0, buffer.getReadPointer(channelIn, midPos), buffer.getNumSamples() - midPos, midGain, endGain);
         }
         else
         {
-            delayBuffers[delayLineIndex].addFromWithRamp(channelOut, writePos, buffer.getReadPointer(channelIn), midPos, lastInputGain[delayLineIndex], midGain);
+            delayBuffers[delayLineIndex].addFromWithRamp(channelOut, writePosition, buffer.getReadPointer(channelIn), midPos, lastInputGain[delayLineIndex], midGain);
             delayBuffers[delayLineIndex].addFromWithRamp(channelOut, 0, buffer.getReadPointer(channelIn, midPos), buffer.getNumSamples() - midPos, midGain, endGain);
         }
     }
@@ -187,12 +192,12 @@ void HayesFDNReverbAudioProcessor::parameterChanged(const juce::String& paramete
 {
     for (int i = 0; i < DELAY_LINE_COUNT; ++i)
     {
-        if (parameterID == juce::String("gain" + std::to_string(i)))
-            gains[i] = newValue;
-        else if (parameterID == juce::String("time" + std::to_string(i)))
+        if (parameterID == juce::String("time" + std::to_string(i)))
             times[i] = newValue;
         else if (parameterID == juce::String("feedback" + std::to_string(i)))
             feedbacks[i] = newValue;
+        else if (parameterID == juce::String("mix" + std::to_string(i)))
+            wetMix[i] = newValue;
     }
 }
 
@@ -203,11 +208,11 @@ juce::AudioProcessorValueTreeState::ParameterLayout HayesFDNReverbAudioProcessor
     {
         std::string tstr = "time" + std::to_string(i);
         std::string fstr = "feedback" + std::to_string(i);
-        std::string gstr = "gain" + std::to_string(i); 
+        std::string gstr = "mix" + std::to_string(i); 
 
         layout.add(std::make_unique<juce::AudioParameterFloat>(juce::ParameterID { tstr, 1 }, "Time", makeLogarithmicRange(0.0f, 2000.0f), 30.0f * (i + 1)));
-        layout.add(std::make_unique<juce::AudioParameterFloat>(juce::ParameterID { fstr, 1 }, "Feedback", -100.0f, -0.2f, -21.0f));
-        layout.add(std::make_unique<juce::AudioParameterFloat>(juce::ParameterID { gstr, 1 }, "Gain", -100.0f, 3.0f, -100.0f));
+        layout.add(std::make_unique<juce::AudioParameterFloat>(juce::ParameterID { fstr, 1 }, "Feedback", -100.0f, -1.0f, -25.0f));
+        layout.add(std::make_unique<juce::AudioParameterFloat>(juce::ParameterID { gstr, 1 }, "mix", 0.0f, 1.0f, 0.1f));
 
     }
     return layout;
