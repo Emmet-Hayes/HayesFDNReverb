@@ -5,7 +5,6 @@
 HayesFDNReverbAudioProcessor::HayesFDNReverbAudioProcessor()
 :   apvts { *this, nullptr, "HayesDelayParameters", createParameterLayout() }
 {
-
     for (int i = 0; i < DELAY_LINE_COUNT; ++i)
     {
         apvts.addParameterListener("time" + std::to_string(i), this);
@@ -30,8 +29,6 @@ void HayesFDNReverbAudioProcessor::prepareToPlay(double sampleRate, int samplesP
         delayBuffers[i].clear();
         expectedReadPos[i] = -1;
     }
-
-
 }
 
 void HayesFDNReverbAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
