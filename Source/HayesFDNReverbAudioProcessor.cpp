@@ -31,6 +31,10 @@ void HayesFDNReverbAudioProcessor::prepareToPlay(double sampleRate, int samplesP
         delayBuffers[i].clear();
         expectedReadPos[i] = -1;
     }
+    
+    capacitor.prepare(spec);
+    inductor.prepare(spec);
+    otherFilter.prepare(spec);
 }
 
 void HayesFDNReverbAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& /*midiMessages*/)
@@ -41,10 +45,10 @@ void HayesFDNReverbAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer
     if (Bus* inputBus = getBus(true, 0))
     {
         // Diffusion
-        juce::dsp::AudioBlock<float> block(buffer);
-        juce::dsp::ProcessContextReplacing<float> context(block);
         for (int j = 0; j < DIFFUSER_COUNT; ++j)
         {
+            juce::dsp::AudioBlock<float> block(buffer);
+            juce::dsp::ProcessContextReplacing<float> context(block);
             *allPassFilters[j].state = juce::dsp::IIR::ArrayCoefficients<float>::makeAllPass(currentSampleRate, 500.0f);
             allPassFilters[j].process(context); 
         }
@@ -63,7 +67,7 @@ void HayesFDNReverbAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer
                 writeToDelayBuffer(buffer, j, inputChannelNum, i, writePos[j], 1.0f, 1.0f, true);
             }
 
-            auto readPos = juce::roundToInt(writePos[j] - (currentSampleRate * time / 1000.0)); // read delayed signal
+            auto readPos =  juce::roundToInt(writePos[j] - (currentSampleRate * time / 1000.0)); // read delayed signal
             if (readPos < 0)
                 readPos += delayBuffers[j].getNumSamples();
 
@@ -103,13 +107,23 @@ void HayesFDNReverbAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer
             expectedReadPos[j] = readPos + buffer.getNumSamples();
             if (expectedReadPos[j] >= delayBuffers[j].getNumSamples())
                 expectedReadPos[j] -= delayBuffers[j].getNumSamples();
-                
-            for (int channel = 0; channel < buffer.getNumChannels(); ++channel)
+            
+            // finally, mix dry (copied before processing) and wet (current buffer)
+            for (int channel = 0; channel < buffer.getNumChannels(); ++channel) 
             {
                 buffer.applyGain(channel, 0, buffer.getNumSamples(), wetMix[j].get());
                 buffer.addFromWithRamp(channel, 0, dryBuffer.getReadPointer(channel), dryBuffer.getNumSamples(), 1.0f - wetMix[j].get(), 1.0f - wetMix[j].get());
             }
         }
+        
+        // Final touches (IIR filters)
+        juce::dsp::AudioBlock<float> block(buffer);
+        juce::dsp::ProcessContextReplacing<float> context(block);
+        
+        *capacitor.state = juce::dsp::IIR::ArrayCoefficients<float>::makeHighPass(currentSampleRate, 96.0f, 0.5f);
+        capacitor.process(context);
+        *inductor.state = juce::dsp::IIR::ArrayCoefficients<float>::makeLowPass(currentSampleRate, 5120.0f, 0.5f);
+        inductor.process(context);
     }
 }
 

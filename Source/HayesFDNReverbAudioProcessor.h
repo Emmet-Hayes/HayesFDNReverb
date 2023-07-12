@@ -3,7 +3,7 @@
 
 inline static const double TAIL_LENGTH { 2.0 };
 inline static const int DELAY_LINE_COUNT { 8 };
-inline static const int DIFFUSER_COUNT { 9 };
+inline static const int DIFFUSER_COUNT { 16 };
 
 class HayesFDNReverbAudioProcessor : public juce::AudioProcessor
                                    , public juce::AudioProcessorValueTreeState::Listener
@@ -54,6 +54,9 @@ private:
     juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
 
     juce::dsp::ProcessorDuplicator<juce::dsp::IIR::Filter<float>, juce::dsp::IIR::Coefficients<float>> allPassFilters[DIFFUSER_COUNT];
+    juce::dsp::ProcessorDuplicator<juce::dsp::IIR::Filter<float>, juce::dsp::IIR::Coefficients<float>> inductor;
+    juce::dsp::ProcessorDuplicator<juce::dsp::IIR::Filter<float>, juce::dsp::IIR::Coefficients<float>> capacitor;
+    juce::dsp::ProcessorDuplicator<juce::dsp::IIR::Filter<float>, juce::dsp::IIR::Coefficients<float>> otherFilter;
     juce::Atomic<float>     wetMix[DELAY_LINE_COUNT] { 0.0f };
     juce::Atomic<float>     times[DELAY_LINE_COUNT] { 45.0f, 64.0f, 72.0f, 120.0f, 142.0f, 184.0f, 212.0f, 256.0f };
     juce::Atomic<float>     feedbacks[DELAY_LINE_COUNT] { -18.0f, -18.0f, -18.0f, -18.0f, -18.0f, -18.0f, -18.0f, -18.0f };
