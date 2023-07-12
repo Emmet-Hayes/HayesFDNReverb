@@ -12,7 +12,6 @@ HayesFDNReverbAudioProcessor::HayesFDNReverbAudioProcessor()
         apvts.addParameterListener("feedback" + std::to_string(i), this);
         apvts.addParameterListener("mix" + std::to_string(i), this);
     }
-
 }
 
 void HayesFDNReverbAudioProcessor::prepareToPlay(double sampleRate, int samplesPerBlock)

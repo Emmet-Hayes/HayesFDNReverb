@@ -14,12 +14,10 @@ void HayesFDNReverbAudioProcessorEditor::addAllGUIComponents()
     timeLabel.setText("Time", juce::NotificationType::dontSendNotification);
     feedbackLabel.setText("Feedback", juce::NotificationType::dontSendNotification);
     mixLabel.setText("Mix", juce::NotificationType::dontSendNotification);
-
     numDelayLinesLabel.setJustificationType(juce::Justification::centred);
     timeLabel.setJustificationType(juce::Justification::centred);
     feedbackLabel.setJustificationType(juce::Justification::centred);
     mixLabel.setJustificationType(juce::Justification::centred);
-
     addAndMakeVisible(numDelayLinesLabel);
     addAndMakeVisible(timeLabel);
     addAndMakeVisible(feedbackLabel);
@@ -27,6 +25,7 @@ void HayesFDNReverbAudioProcessorEditor::addAllGUIComponents()
 
     numDelayLinesBox.addItemList({ "1", "2", "3", "4", "5", "6", "7", "8" }, 1);
     numDelayLinesBox.setJustificationType(juce::Justification::centred);
+    numDelayLinesBox.setLookAndFeel(&customLookAndFeel);
     numDelayLinesBox.addListener(this);
     addAndMakeVisible(numDelayLinesBox);
 
@@ -38,7 +37,9 @@ void HayesFDNReverbAudioProcessorEditor::addAllGUIComponents()
         timeSliders[i].setTextBoxStyle(juce::Slider::TextBoxBelow, false, 70, 20);
         feedbackSliders[i].setTextBoxStyle(juce::Slider::TextBoxBelow, false, 70, 20);
         mixSliders[i].setTextBoxStyle(juce::Slider::TextBoxBelow, false, 70, 20);
-
+        timeSliders[i].setLookAndFeel(&customLookAndFeel);
+        feedbackSliders[i].setLookAndFeel(&customLookAndFeel);
+        mixSliders[i].setLookAndFeel(&customLookAndFeel);
         addAndMakeVisible(timeSliders[i]);
         addAndMakeVisible(feedbackSliders[i]);
         addAndMakeVisible(mixSliders[i]);

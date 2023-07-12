@@ -1,7 +1,7 @@
 #pragma once
 #include <JuceHeader.h>
-
 #include "HayesFDNReverbAudioProcessor.h"
+#include "CustomLookAndFeel.h"
 #include "DbSlider.h"
 #include "LogMsSlider.h"
 #include "PercentSlider.h"
@@ -10,9 +10,8 @@ class HayesFDNReverbAudioProcessorEditor  : public juce::AudioProcessorEditor
                                           , public juce::ComboBox::Listener
 {
 public:
-    HayesFDNReverbAudioProcessorEditor (HayesFDNReverbAudioProcessor&);
-
-    void paint (juce::Graphics&) override;
+    HayesFDNReverbAudioProcessorEditor(HayesFDNReverbAudioProcessor&);
+    void paint(juce::Graphics&) override;
     void resized() override;
     void comboBoxChanged(juce::ComboBox* comboBoxThatChanged) override;
 
@@ -20,7 +19,9 @@ private:
     void addAllGUIComponents();
 
     HayesFDNReverbAudioProcessor& audioProcessor;
- 
+    
+    CustomLookAndFeel customLookAndFeel;
+    
     juce::Image image;
 
     juce::ComboBox numDelayLinesBox;
