@@ -4,12 +4,14 @@
 HayesFDNReverbAudioProcessorEditor::HayesFDNReverbAudioProcessorEditor(HayesFDNReverbAudioProcessor& p)
 :   AudioProcessorEditor { &p }
 ,   audioProcessor { p }
+,   presetBar { p }
 {
     addAllGUIComponents();
 }
 
 void HayesFDNReverbAudioProcessorEditor::addAllGUIComponents()
 {
+    setLookAndFeel(&customLookAndFeel);
     numDelayLinesLabel.setText("Number of Delay Lines", juce::NotificationType::dontSendNotification);
     timeLabel.setText("Time", juce::NotificationType::dontSendNotification);
     feedbackLabel.setText("Feedback", juce::NotificationType::dontSendNotification);
@@ -45,6 +47,9 @@ void HayesFDNReverbAudioProcessorEditor::addAllGUIComponents()
         addAndMakeVisible(mixSliders[i]);
     }
 
+    presetBar.setLookAndFeel(&customLookAndFeel);
+    addAndMakeVisible(presetBar);
+
     image = juce::ImageCache::getFromMemory(BinaryData::bg_file_jpg, BinaryData::bg_file_jpgSize);
     setSize(400, 860);
 
@@ -66,8 +71,9 @@ void HayesFDNReverbAudioProcessorEditor::paint(juce::Graphics& g)
 
 void HayesFDNReverbAudioProcessorEditor::resized()
 {
-    numDelayLinesLabel.setBounds(25, 5, 200, 25);
-    numDelayLinesBox.setBounds(235, 5, 70, 30);
+    presetBar.setBounds(0, 5, 220, 25);
+    numDelayLinesLabel.setBounds(220, 5, 125, 25);
+    numDelayLinesBox.setBounds(345, 5, 50, 30);
     timeLabel.setBounds(25, 40, 70, 20);
     feedbackLabel.setBounds(165, 40, 70, 20);
     mixLabel.setBounds(305, 40, 70, 20);

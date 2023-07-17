@@ -2,12 +2,19 @@
 
 <JUCERPROJECT id="x6C0Ge" name="HayesFDNReverb" projectType="audioplug" useAppConfig="0"
               addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1"
-              pluginFormats="buildAU,buildLV2,buildStandalone,buildVST3" companyName="EmmetSoft">
+              pluginFormats="buildAU,buildLV2,buildStandalone,buildVST3" companyName="EmmetSoft"
+              defines="JUCE_MODAL_LOOPS_PERMITTED=1">
   <MAINGROUP id="iBlOi1" name="HayesFDNReverb">
     <GROUP id="{7CE67462-A2B0-2C27-3EE1-A789BFD90652}" name="Images">
       <FILE id="d2JSQ9" name="bg_file.jpg" compile="0" resource="1" file="Images/bg_file.jpg"/>
     </GROUP>
     <GROUP id="{F48C9E40-ADB3-C6B7-FAFF-8DEC911C2817}" name="Source">
+      <FILE id="mdmOUi" name="PresetComboBox.cpp" compile="1" resource="0"
+            file="Source/PresetComboBox.cpp"/>
+      <FILE id="sXmWA6" name="PresetComboBox.h" compile="0" resource="0"
+            file="Source/PresetComboBox.h"/>
+      <FILE id="zqcRNS" name="PresetBar.cpp" compile="1" resource="0" file="Source/PresetBar.cpp"/>
+      <FILE id="O15ezc" name="PresetBar.h" compile="0" resource="0" file="Source/PresetBar.h"/>
       <FILE id="sDK5uA" name="CustomLookAndFeel.cpp" compile="1" resource="0"
             file="Source/CustomLookAndFeel.cpp"/>
       <FILE id="YqXlaf" name="CustomLookAndFeel.h" compile="0" resource="0"

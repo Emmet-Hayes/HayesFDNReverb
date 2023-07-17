@@ -5,6 +5,7 @@
 #include "DbSlider.h"
 #include "LogMsSlider.h"
 #include "PercentSlider.h"
+#include "PresetBar.h"
 
 class HayesFDNReverbAudioProcessorEditor  : public juce::AudioProcessorEditor
                                           , public juce::ComboBox::Listener
@@ -22,6 +23,7 @@ private:
     
     CustomLookAndFeel customLookAndFeel;
     
+    PresetBar presetBar;
     juce::Image image;
 
     juce::ComboBox numDelayLinesBox;
