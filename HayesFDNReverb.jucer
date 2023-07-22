@@ -9,20 +9,30 @@
       <FILE id="d2JSQ9" name="bg_file.jpg" compile="0" resource="1" file="Images/bg_file.jpg"/>
     </GROUP>
     <GROUP id="{F48C9E40-ADB3-C6B7-FAFF-8DEC911C2817}" name="Source">
-      <FILE id="mdmOUi" name="PresetComboBox.cpp" compile="1" resource="0"
-            file="Source/PresetComboBox.cpp"/>
-      <FILE id="sXmWA6" name="PresetComboBox.h" compile="0" resource="0"
-            file="Source/PresetComboBox.h"/>
-      <FILE id="zqcRNS" name="PresetBar.cpp" compile="1" resource="0" file="Source/PresetBar.cpp"/>
-      <FILE id="O15ezc" name="PresetBar.h" compile="0" resource="0" file="Source/PresetBar.h"/>
-      <FILE id="sDK5uA" name="CustomLookAndFeel.cpp" compile="1" resource="0"
-            file="Source/CustomLookAndFeel.cpp"/>
-      <FILE id="YqXlaf" name="CustomLookAndFeel.h" compile="0" resource="0"
-            file="Source/CustomLookAndFeel.h"/>
-      <FILE id="QzVyjh" name="PercentSlider.h" compile="0" resource="0" file="Source/PercentSlider.h"/>
-      <FILE id="mF4Whn" name="Utilities.h" compile="0" resource="0" file="Source/Utilities.h"/>
-      <FILE id="Z20AMH" name="DbSlider.h" compile="0" resource="0" file="Source/DbSlider.h"/>
-      <FILE id="puKNCF" name="LogMsSlider.h" compile="0" resource="0" file="Source/LogMsSlider.h"/>
+      <GROUP id="{BF1006EC-BAB2-7410-110F-E95F26B9C1A9}" name="Common">
+        <FILE id="JremLq" name="BaseAudioProcessor.cpp" compile="1" resource="0"
+              file="../Common/BaseAudioProcessor.cpp"/>
+        <FILE id="BhZFGw" name="BaseAudioProcessor.h" compile="0" resource="0"
+              file="../Common/BaseAudioProcessor.h"/>
+        <FILE id="zdhstO" name="BaseAudioProcessorEditor.cpp" compile="1" resource="0"
+              file="../Common/BaseAudioProcessorEditor.cpp"/>
+        <FILE id="UQ2pdw" name="BaseAudioProcessorEditor.h" compile="0" resource="0"
+              file="../Common/BaseAudioProcessorEditor.h"/>
+        <FILE id="r2oSCm" name="CustomLookAndFeel.cpp" compile="1" resource="0"
+              file="../Common/CustomLookAndFeel.cpp"/>
+        <FILE id="IOBJt5" name="CustomLookAndFeel.h" compile="0" resource="0"
+              file="../Common/CustomLookAndFeel.h"/>
+        <FILE id="PeQVfx" name="DbSlider.h" compile="0" resource="0" file="../Common/DbSlider.h"/>
+        <FILE id="Dc3VU4" name="LogMsSlider.h" compile="0" resource="0" file="../Common/LogMsSlider.h"/>
+        <FILE id="dDjBtK" name="PercentSlider.h" compile="0" resource="0" file="../Common/PercentSlider.h"/>
+        <FILE id="xoTWyh" name="PresetBar.cpp" compile="1" resource="0" file="../Common/PresetBar.cpp"/>
+        <FILE id="w7rOy4" name="PresetBar.h" compile="0" resource="0" file="../Common/PresetBar.h"/>
+        <FILE id="CssIPd" name="PresetComboBox.cpp" compile="1" resource="0"
+              file="../Common/PresetComboBox.cpp"/>
+        <FILE id="eM4zBY" name="PresetComboBox.h" compile="0" resource="0"
+              file="../Common/PresetComboBox.h"/>
+        <FILE id="wDyO2x" name="Utilities.h" compile="0" resource="0" file="../Common/Utilities.h"/>
+      </GROUP>
       <FILE id="j7MKmp" name="HayesFDNReverbAudioProcessor.cpp" compile="1"
             resource="0" file="Source/HayesFDNReverbAudioProcessor.cpp"/>
       <FILE id="vFQYU0" name="HayesFDNReverbAudioProcessor.h" compile="0"
@@ -37,8 +47,8 @@
   <EXPORTFORMATS>
     <XCODE_MAC targetFolder="Builds/MacOSX">
       <CONFIGURATIONS>
-        <CONFIGURATION isDebug="1" name="Debug"/>
-        <CONFIGURATION isDebug="0" name="Release"/>
+        <CONFIGURATION isDebug="1" name="Debug" macOSDeploymentTarget="10.9" osxCompatibility="10.9 SDK"/>
+        <CONFIGURATION isDebug="0" name="Release" macOSDeploymentTarget="10.9" osxCompatibility="10.9 SDK"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_audio_basics" path="C:\Users\gelli\Documents\JUCE\modules"/>

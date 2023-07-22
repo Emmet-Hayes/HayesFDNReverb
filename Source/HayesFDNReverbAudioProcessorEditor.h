@@ -1,11 +1,12 @@
 #pragma once
 #include <JuceHeader.h>
 #include "HayesFDNReverbAudioProcessor.h"
-#include "CustomLookAndFeel.h"
-#include "DbSlider.h"
-#include "LogMsSlider.h"
-#include "PercentSlider.h"
-#include "PresetBar.h"
+#include "../../Common/BaseAudioProcessorEditor.h"
+#include "../../Common/CustomLookAndFeel.h"
+#include "../../Common/DbSlider.h"
+#include "../../Common/LogMsSlider.h"
+#include "../../Common/PercentSlider.h"
+#include "../../Common/PresetBar.h"
 
 class HayesFDNReverbAudioProcessorEditor  : public juce::AudioProcessorEditor
                                           , public juce::ComboBox::Listener

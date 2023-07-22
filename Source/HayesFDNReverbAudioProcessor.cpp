@@ -1,9 +1,9 @@
 #include "HayesFDNReverbAudioProcessor.h"
 #include "HayesFDNReverbAudioProcessorEditor.h"
-#include "Utilities.h"
+#include "../../Common/Utilities.h"
 
 HayesFDNReverbAudioProcessor::HayesFDNReverbAudioProcessor()
-:   apvts { *this, nullptr, "HayesDelayParameters", createParameterLayout() }
+:   BaseAudioProcessor { createParameterLayout() }
 {
     apvts.addParameterListener("numdelaylines", this);
     for (int i = 0; i < DELAY_LINE_COUNT; ++i)
@@ -187,21 +187,6 @@ void HayesFDNReverbAudioProcessor::readFromDelayBuffer(juce::AudioSampleBuffer& 
 juce::AudioProcessorEditor* HayesFDNReverbAudioProcessor::createEditor()
 {
     return new HayesFDNReverbAudioProcessorEditor(*this);
-}
-
-void HayesFDNReverbAudioProcessor::getStateInformation(juce::MemoryBlock& destData)
-{
-    juce::MemoryOutputStream mos(destData, true);
-    apvts.state.writeToStream(mos);
-}
-
-void HayesFDNReverbAudioProcessor::setStateInformation(const void* data, int sizeInBytes)
-{
-    auto tree = juce::ValueTree::readFromData(data,
-        static_cast<size_t> (sizeInBytes));
-
-    if (tree.isValid())
-        apvts.replaceState(tree);
 }
 
 void HayesFDNReverbAudioProcessor::parameterChanged(const juce::String& parameterID, float newValue)
