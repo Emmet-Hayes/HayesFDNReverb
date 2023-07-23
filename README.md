@@ -1,7 +1,6 @@
 # HayesFDNReverb
-A feedback-delay network reverb with 9 all-pass diffusers and 8 delay lines.
-
-This is a commonly-used technique to create perfect-sounding reverbs, although they can be tricky to get to sound realistic.
-Future plans for this reverb include parameterizing the diffusion layers as well as the number of delay lines.
+A free, open-source feedback-delay network reverb with 9 all-pass diffusers, 8 delay lines, and some light filtering.
+This is a commonly-used technique to create perfect-sounding reverbs, although they can sometimes be tricky to get to sound realistic.
+Written with JUCE.
 
 ![alt text](Images/FDNReverbGUI.png)
