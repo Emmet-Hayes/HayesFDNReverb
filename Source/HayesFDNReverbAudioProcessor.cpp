@@ -38,6 +38,13 @@ void HayesFDNReverbAudioProcessor::prepareToPlay(double sampleRate, int samplesP
 
 void HayesFDNReverbAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& /*midiMessages*/)
 {
+    // In case we have more outputs than inputs, this code clears any output
+    // channels that didn't contain input data, (because these aren't
+    // guaranteed to be empty - they may contain garbage).
+    // This is here to avoid people getting screaming feedback
+    // when they first compile a plugin, but obviously you don't need to keep
+    // this code if your algorithm always overwrites all the output channels.
+    
     juce::AudioBuffer<float> dryBuffer; // copying the dry buffer to be mixed back in later based on mix knob value
     dryBuffer.makeCopyOf(buffer, true);
     
@@ -56,7 +63,6 @@ void HayesFDNReverbAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer
         const int activeLines = numActiveDelayLines.get();
         for (int j = 0; j < activeLines; ++j)
         {
-            const float gain = juce::Decibels::decibelsToGain(wetMix[j].get());
             const float time = times[j].get();
             const float feedback = juce::Decibels::decibelsToGain(feedbacks[j].get());
 

@@ -5,34 +5,36 @@
               pluginFormats="buildAU,buildLV2,buildStandalone,buildVST3" companyName="EmmetSoft"
               defines="JUCE_MODAL_LOOPS_PERMITTED=1">
   <MAINGROUP id="iBlOi1" name="HayesFDNReverb">
-    <GROUP id="{7CE67462-A2B0-2C27-3EE1-A789BFD90652}" name="Images">
-      <FILE id="d2JSQ9" name="bg_file.jpg" compile="0" resource="1" file="Images/bg_file.jpg"/>
+    <GROUP id="{87366451-B3C4-B674-D133-38B068491E8A}" name="Resources">
+      <GROUP id="{2E806DBE-3013-939B-F85B-E7ECF4CAFAE1}" name="Images">
+        <FILE id="S40HfH" name="bg_file.jpg" compile="0" resource="1" file="Resources/Images/bg_file.jpg"/>
+      </GROUP>
+    </GROUP>
+    <GROUP id="{BF1006EC-BAB2-7410-110F-E95F26B9C1A9}" name="Common">
+      <FILE id="JremLq" name="BaseAudioProcessor.cpp" compile="1" resource="0"
+            file="../Common/BaseAudioProcessor.cpp"/>
+      <FILE id="BhZFGw" name="BaseAudioProcessor.h" compile="0" resource="0"
+            file="../Common/BaseAudioProcessor.h"/>
+      <FILE id="zdhstO" name="BaseAudioProcessorEditor.cpp" compile="1" resource="0"
+            file="../Common/BaseAudioProcessorEditor.cpp"/>
+      <FILE id="UQ2pdw" name="BaseAudioProcessorEditor.h" compile="0" resource="0"
+            file="../Common/BaseAudioProcessorEditor.h"/>
+      <FILE id="r2oSCm" name="CustomLookAndFeel.cpp" compile="1" resource="0"
+            file="../Common/CustomLookAndFeel.cpp"/>
+      <FILE id="IOBJt5" name="CustomLookAndFeel.h" compile="0" resource="0"
+            file="../Common/CustomLookAndFeel.h"/>
+      <FILE id="PeQVfx" name="DbSlider.h" compile="0" resource="0" file="../Common/DbSlider.h"/>
+      <FILE id="Dc3VU4" name="LogMsSlider.h" compile="0" resource="0" file="../Common/LogMsSlider.h"/>
+      <FILE id="dDjBtK" name="PercentSlider.h" compile="0" resource="0" file="../Common/PercentSlider.h"/>
+      <FILE id="xoTWyh" name="PresetBar.cpp" compile="1" resource="0" file="../Common/PresetBar.cpp"/>
+      <FILE id="w7rOy4" name="PresetBar.h" compile="0" resource="0" file="../Common/PresetBar.h"/>
+      <FILE id="CssIPd" name="PresetComboBox.cpp" compile="1" resource="0"
+            file="../Common/PresetComboBox.cpp"/>
+      <FILE id="eM4zBY" name="PresetComboBox.h" compile="0" resource="0"
+            file="../Common/PresetComboBox.h"/>
+      <FILE id="wDyO2x" name="Utilities.h" compile="0" resource="0" file="../Common/Utilities.h"/>
     </GROUP>
     <GROUP id="{F48C9E40-ADB3-C6B7-FAFF-8DEC911C2817}" name="Source">
-      <GROUP id="{BF1006EC-BAB2-7410-110F-E95F26B9C1A9}" name="Common">
-        <FILE id="JremLq" name="BaseAudioProcessor.cpp" compile="1" resource="0"
-              file="../Common/BaseAudioProcessor.cpp"/>
-        <FILE id="BhZFGw" name="BaseAudioProcessor.h" compile="0" resource="0"
-              file="../Common/BaseAudioProcessor.h"/>
-        <FILE id="zdhstO" name="BaseAudioProcessorEditor.cpp" compile="1" resource="0"
-              file="../Common/BaseAudioProcessorEditor.cpp"/>
-        <FILE id="UQ2pdw" name="BaseAudioProcessorEditor.h" compile="0" resource="0"
-              file="../Common/BaseAudioProcessorEditor.h"/>
-        <FILE id="r2oSCm" name="CustomLookAndFeel.cpp" compile="1" resource="0"
-              file="../Common/CustomLookAndFeel.cpp"/>
-        <FILE id="IOBJt5" name="CustomLookAndFeel.h" compile="0" resource="0"
-              file="../Common/CustomLookAndFeel.h"/>
-        <FILE id="PeQVfx" name="DbSlider.h" compile="0" resource="0" file="../Common/DbSlider.h"/>
-        <FILE id="Dc3VU4" name="LogMsSlider.h" compile="0" resource="0" file="../Common/LogMsSlider.h"/>
-        <FILE id="dDjBtK" name="PercentSlider.h" compile="0" resource="0" file="../Common/PercentSlider.h"/>
-        <FILE id="xoTWyh" name="PresetBar.cpp" compile="1" resource="0" file="../Common/PresetBar.cpp"/>
-        <FILE id="w7rOy4" name="PresetBar.h" compile="0" resource="0" file="../Common/PresetBar.h"/>
-        <FILE id="CssIPd" name="PresetComboBox.cpp" compile="1" resource="0"
-              file="../Common/PresetComboBox.cpp"/>
-        <FILE id="eM4zBY" name="PresetComboBox.h" compile="0" resource="0"
-              file="../Common/PresetComboBox.h"/>
-        <FILE id="wDyO2x" name="Utilities.h" compile="0" resource="0" file="../Common/Utilities.h"/>
-      </GROUP>
       <FILE id="j7MKmp" name="HayesFDNReverbAudioProcessor.cpp" compile="1"
             resource="0" file="Source/HayesFDNReverbAudioProcessor.cpp"/>
       <FILE id="vFQYU0" name="HayesFDNReverbAudioProcessor.h" compile="0"
