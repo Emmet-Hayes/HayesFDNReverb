@@ -7,7 +7,7 @@
   <MAINGROUP id="iBlOi1" name="HayesFDNReverb">
     <GROUP id="{87366451-B3C4-B674-D133-38B068491E8A}" name="Resources">
       <GROUP id="{2E806DBE-3013-939B-F85B-E7ECF4CAFAE1}" name="Images">
-        <FILE id="S40HfH" name="bg_file.jpg" compile="0" resource="1" file="Resources/Images/bg_file.jpg"/>
+        <FILE id="fLHHaA" name="bg_file.jpg" compile="0" resource="1" file="Resources/Images/bg_file.jpg"/>
       </GROUP>
     </GROUP>
     <GROUP id="{BF1006EC-BAB2-7410-110F-E95F26B9C1A9}" name="Common">

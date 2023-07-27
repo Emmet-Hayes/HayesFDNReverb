@@ -66,7 +66,7 @@ void HayesFDNReverbAudioProcessorEditor::addAllGUIComponents()
 
 void HayesFDNReverbAudioProcessorEditor::paint(juce::Graphics& g)
 {
-    g.drawImage(image, 0, 0, getWidth(), getHeight(), 1248, 0, 800, 1600);
+    g.drawImage(image, 0, 0, getWidth(), getHeight(), 0, 0, 800, 1720);
 }
 
 void HayesFDNReverbAudioProcessorEditor::resized()
