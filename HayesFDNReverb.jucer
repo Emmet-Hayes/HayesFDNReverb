@@ -2,8 +2,7 @@
 
 <JUCERPROJECT id="x6C0Ge" name="HayesFDNReverb" projectType="audioplug" useAppConfig="0"
               addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1"
-              pluginFormats="buildAU,buildLV2,buildStandalone,buildVST3" companyName="EmmetSoft"
-              defines="JUCE_MODAL_LOOPS_PERMITTED=1">
+              pluginFormats="buildAU,buildVST3" companyName="EmmetSoft" defines="JUCE_MODAL_LOOPS_PERMITTED=1">
   <MAINGROUP id="iBlOi1" name="HayesFDNReverb">
     <GROUP id="{87366451-B3C4-B674-D133-38B068491E8A}" name="Resources">
       <GROUP id="{2E806DBE-3013-939B-F85B-E7ECF4CAFAE1}" name="Images">
@@ -11,6 +10,10 @@
       </GROUP>
     </GROUP>
     <GROUP id="{BF1006EC-BAB2-7410-110F-E95F26B9C1A9}" name="Common">
+      <GROUP id="{D14464FD-A5F5-C975-2AA1-B34B4DB5D9A4}" name="Fonts">
+        <FILE id="uj6VaE" name="Juliafont-Regular.ttf" compile="0" resource="1"
+              file="../Common/Fonts/Juliafont-Regular.ttf"/>
+      </GROUP>
       <FILE id="JremLq" name="BaseAudioProcessor.cpp" compile="1" resource="0"
             file="../Common/BaseAudioProcessor.cpp"/>
       <FILE id="BhZFGw" name="BaseAudioProcessor.h" compile="0" resource="0"
