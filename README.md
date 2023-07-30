@@ -3,4 +3,4 @@ A free, open-source feedback-delay network reverb with 9 all-pass diffusers, 8 d
 This is a commonly-used technique to create perfect-sounding reverbs, although they can sometimes be tricky to get to sound realistic.
 Written with JUCE.
 
-![alt text](Images/FDNReverbGUI.png)
+![alt text](Resources/Images/FDNReverbGUI.png)
