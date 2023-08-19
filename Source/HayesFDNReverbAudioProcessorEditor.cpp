@@ -9,6 +9,11 @@ HayesFDNReverbAudioProcessorEditor::HayesFDNReverbAudioProcessorEditor(HayesFDNR
     addAllGUIComponents();
 }
 
+HayesFDNReverbAudioProcessorEditor::~HayesFDNReverbAudioProcessorEditor()
+{
+    setLookAndFeel(nullptr);
+}
+
 void HayesFDNReverbAudioProcessorEditor::addAllGUIComponents()
 {
     setLookAndFeel(&customLookAndFeel);
@@ -27,7 +32,6 @@ void HayesFDNReverbAudioProcessorEditor::addAllGUIComponents()
 
     numDelayLinesBox.addItemList({ "1", "2", "3", "4", "5", "6", "7", "8" }, 1);
     numDelayLinesBox.setJustificationType(juce::Justification::centred);
-    numDelayLinesBox.setLookAndFeel(&customLookAndFeel);
     numDelayLinesBox.addListener(this);
     addAndMakeVisible(numDelayLinesBox);
 
@@ -39,19 +43,14 @@ void HayesFDNReverbAudioProcessorEditor::addAllGUIComponents()
         timeSliders[i].setTextBoxStyle(juce::Slider::TextBoxBelow, false, 70, 20);
         feedbackSliders[i].setTextBoxStyle(juce::Slider::TextBoxBelow, false, 70, 20);
         mixSliders[i].setTextBoxStyle(juce::Slider::TextBoxBelow, false, 70, 20);
-        timeSliders[i].setLookAndFeel(&customLookAndFeel);
-        feedbackSliders[i].setLookAndFeel(&customLookAndFeel);
-        mixSliders[i].setLookAndFeel(&customLookAndFeel);
         addAndMakeVisible(timeSliders[i]);
         addAndMakeVisible(feedbackSliders[i]);
         addAndMakeVisible(mixSliders[i]);
     }
 
-    presetBar.setLookAndFeel(&customLookAndFeel);
     addAndMakeVisible(presetBar);
 
     image = juce::ImageCache::getFromMemory(BinaryData::bg_file_jpg, BinaryData::bg_file_jpgSize);
-    setSize(400, 860);
 
     numDelayLinesAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(audioProcessor.apvts, "numdelaylines", numDelayLinesBox);
 
@@ -62,6 +61,12 @@ void HayesFDNReverbAudioProcessorEditor::addAllGUIComponents()
         feedbackAttachment[i] = std::make_unique<Attachment>(audioProcessor.apvts, "feedback" + std::to_string(i), feedbackSliders[i]);
         mixAttachment[i] = std::make_unique<Attachment>(audioProcessor.apvts, "mix" + std::to_string(i), mixSliders[i]);
     }
+
+    const auto ratio = static_cast<double> (defaultWidth) / defaultHeight;
+    setResizable(false, true);
+    getConstrainer()->setFixedAspectRatio(ratio);
+    getConstrainer()->setSizeLimits(defaultWidth, defaultHeight, defaultWidth * 2, defaultHeight * 2);
+    setSize(defaultWidth, defaultHeight);
 }
 
 void HayesFDNReverbAudioProcessorEditor::paint(juce::Graphics& g)
@@ -71,19 +76,28 @@ void HayesFDNReverbAudioProcessorEditor::paint(juce::Graphics& g)
 
 void HayesFDNReverbAudioProcessorEditor::resized()
 {
-    presetBar.setBounds(0, 5, 220, 25);
-    numDelayLinesLabel.setBounds(220, 5, 125, 25);
-    numDelayLinesBox.setBounds(345, 5, 50, 30);
-    timeLabel.setBounds(25, 40, 70, 20);
-    feedbackLabel.setBounds(165, 40, 70, 20);
-    mixLabel.setBounds(305, 40, 70, 20);
+    const auto scale = static_cast<float> (getWidth()) / defaultWidth;
+
+    auto setBoundsAndApplyScaling = [&](juce::Component* component, int x, int y, int w, int h)
+    {
+        component->setBounds(static_cast<int>(x * scale), static_cast<int>(y * scale),
+                             static_cast<int>(w * scale), static_cast<int>(h * scale));
+    };
+    
+    customLookAndFeel.setWindowScale(scale);
+    setBoundsAndApplyScaling(&presetBar, 0, 5, 220, 25);
+    setBoundsAndApplyScaling(&numDelayLinesLabel, 220, 5, 125, 25);
+    setBoundsAndApplyScaling(&numDelayLinesBox, 345, 5, 50, 30);
+    setBoundsAndApplyScaling(&timeLabel, 25, 40, 70, 20);
+    setBoundsAndApplyScaling(&feedbackLabel, 165, 40, 70, 20);
+    setBoundsAndApplyScaling(&mixLabel, 305, 40, 70, 20);
 
     for (int i = 0; i < DELAY_LINE_COUNT; ++i)
     {
         int y = i * 100 + 65;
-        timeSliders[i].setBounds(20, y, 80, 80);
-        feedbackSliders[i].setBounds(160, y, 80, 80);
-        mixSliders[i].setBounds(300, y, 80, 80);
+        setBoundsAndApplyScaling(&timeSliders[i], 20, y, 80, 80);
+        setBoundsAndApplyScaling(&feedbackSliders[i], 160, y, 80, 80);
+        setBoundsAndApplyScaling(&mixSliders[i], 300, y, 80, 80);
     }
 }
 

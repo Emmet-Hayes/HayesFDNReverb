@@ -127,7 +127,7 @@ void HayesFDNReverbAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer
         
         *capacitor.state = juce::dsp::IIR::ArrayCoefficients<float>::makeHighPass(currentSampleRate, 96.0f, 0.5f);
         capacitor.process(context);
-        *inductor.state = juce::dsp::IIR::ArrayCoefficients<float>::makeLowPass(currentSampleRate, 5120.0f, 0.5f);
+        *inductor.state = juce::dsp::IIR::ArrayCoefficients<float>::makeLowPass(currentSampleRate, 12020.0f, 0.5f);
         inductor.process(context);
     }
 }

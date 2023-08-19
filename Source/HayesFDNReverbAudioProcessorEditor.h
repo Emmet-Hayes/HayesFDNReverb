@@ -13,6 +13,7 @@ class HayesFDNReverbAudioProcessorEditor  : public juce::AudioProcessorEditor
 {
 public:
     HayesFDNReverbAudioProcessorEditor(HayesFDNReverbAudioProcessor&);
+    ~HayesFDNReverbAudioProcessorEditor();
     void paint(juce::Graphics&) override;
     void resized() override;
     void comboBoxChanged(juce::ComboBox* comboBoxThatChanged) override;
@@ -20,9 +21,9 @@ public:
 private:
     void addAllGUIComponents();
 
-    HayesFDNReverbAudioProcessor& audioProcessor;
-    
     CustomLookAndFeel customLookAndFeel;
+    
+    HayesFDNReverbAudioProcessor& audioProcessor;
     
     PresetBar presetBar;
     juce::Image image;
@@ -32,15 +33,15 @@ private:
     DbSlider feedbackSliders[DELAY_LINE_COUNT];
     PercentSlider mixSliders[DELAY_LINE_COUNT];
 
-    juce::Label numDelayLinesLabel;
-    juce::Label timeLabel;
-    juce::Label feedbackLabel;
-    juce::Label mixLabel;
+    juce::Label numDelayLinesLabel, timeLabel, feedbackLabel, mixLabel;
 
     std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment> numDelayLinesAttachment;
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> timeAttachment[DELAY_LINE_COUNT];
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> feedbackAttachment[DELAY_LINE_COUNT];
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> mixAttachment[DELAY_LINE_COUNT];
+
+    int defaultWidth = 400;
+    int defaultHeight = 860;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (HayesFDNReverbAudioProcessorEditor)
 };
