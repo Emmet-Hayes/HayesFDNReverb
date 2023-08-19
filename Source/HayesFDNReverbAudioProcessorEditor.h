@@ -13,6 +13,7 @@ class HayesFDNReverbAudioProcessorEditor  : public juce::AudioProcessorEditor
 {
 public:
     HayesFDNReverbAudioProcessorEditor(HayesFDNReverbAudioProcessor&);
+    ~HayesFDNReverbAudioProcessorEditor();
     void paint(juce::Graphics&) override;
     void resized() override;
     void comboBoxChanged(juce::ComboBox* comboBoxThatChanged) override;
@@ -20,9 +21,9 @@ public:
 private:
     void addAllGUIComponents();
 
-    HayesFDNReverbAudioProcessor& audioProcessor;
-    
     CustomLookAndFeel customLookAndFeel;
+    
+    HayesFDNReverbAudioProcessor& audioProcessor;
     
     PresetBar presetBar;
     juce::Image image;

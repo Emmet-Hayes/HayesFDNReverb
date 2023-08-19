@@ -9,6 +9,11 @@ HayesFDNReverbAudioProcessorEditor::HayesFDNReverbAudioProcessorEditor(HayesFDNR
     addAllGUIComponents();
 }
 
+HayesFDNReverbAudioProcessorEditor::~HayesFDNReverbAudioProcessorEditor()
+{
+    setLookAndFeel(nullptr);
+}
+
 void HayesFDNReverbAudioProcessorEditor::addAllGUIComponents()
 {
     setLookAndFeel(&customLookAndFeel);
@@ -27,7 +32,6 @@ void HayesFDNReverbAudioProcessorEditor::addAllGUIComponents()
 
     numDelayLinesBox.addItemList({ "1", "2", "3", "4", "5", "6", "7", "8" }, 1);
     numDelayLinesBox.setJustificationType(juce::Justification::centred);
-    numDelayLinesBox.setLookAndFeel(&customLookAndFeel);
     numDelayLinesBox.addListener(this);
     addAndMakeVisible(numDelayLinesBox);
 
@@ -39,15 +43,11 @@ void HayesFDNReverbAudioProcessorEditor::addAllGUIComponents()
         timeSliders[i].setTextBoxStyle(juce::Slider::TextBoxBelow, false, 70, 20);
         feedbackSliders[i].setTextBoxStyle(juce::Slider::TextBoxBelow, false, 70, 20);
         mixSliders[i].setTextBoxStyle(juce::Slider::TextBoxBelow, false, 70, 20);
-        timeSliders[i].setLookAndFeel(&customLookAndFeel);
-        feedbackSliders[i].setLookAndFeel(&customLookAndFeel);
-        mixSliders[i].setLookAndFeel(&customLookAndFeel);
         addAndMakeVisible(timeSliders[i]);
         addAndMakeVisible(feedbackSliders[i]);
         addAndMakeVisible(mixSliders[i]);
     }
 
-    presetBar.setLookAndFeel(&customLookAndFeel);
     addAndMakeVisible(presetBar);
 
     image = juce::ImageCache::getFromMemory(BinaryData::bg_file_jpg, BinaryData::bg_file_jpgSize);
