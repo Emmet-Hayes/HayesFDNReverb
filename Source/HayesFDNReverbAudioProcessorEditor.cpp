@@ -37,9 +37,9 @@ void HayesFDNReverbAudioProcessorEditor::addAllGUIComponents()
 
     for (int i = 0; i < DELAY_LINE_COUNT; ++i)
     {
-        timeSliders[i].setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
-        feedbackSliders[i].setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
-        mixSliders[i].setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
+        timeSliders[i].setSliderStyle(juce::Slider::Rotary);
+        feedbackSliders[i].setSliderStyle(juce::Slider::Rotary);
+        mixSliders[i].setSliderStyle(juce::Slider::Rotary);
         timeSliders[i].setTextBoxStyle(juce::Slider::TextBoxBelow, false, 70, 20);
         feedbackSliders[i].setTextBoxStyle(juce::Slider::TextBoxBelow, false, 70, 20);
         mixSliders[i].setTextBoxStyle(juce::Slider::TextBoxBelow, false, 70, 20);
