@@ -78,10 +78,12 @@ void HayesFDNReverbAudioProcessorEditor::resized()
 {
     const auto scale = static_cast<float> (getWidth()) / defaultWidth;
 
-    auto setBoundsAndApplyScaling = [&](juce::Component* component, int x, int y, int w, int h)
+    auto setBoundsAndApplyScaling = [&](juce::Component* component, int x, int y, int w, int h, bool isSlider = false)
     {
         component->setBounds(static_cast<int>(x * scale), static_cast<int>(y * scale),
                              static_cast<int>(w * scale), static_cast<int>(h * scale));
+        if (isSlider)
+            dynamic_cast<juce::Slider*>(component)->setTextBoxStyle(juce::Slider::TextBoxBelow, false, static_cast<int>(70 * scale), static_cast<int>(20 * scale));
     };
     
     customLookAndFeel.setWindowScale(scale);
@@ -95,9 +97,9 @@ void HayesFDNReverbAudioProcessorEditor::resized()
     for (int i = 0; i < DELAY_LINE_COUNT; ++i)
     {
         int y = i * 100 + 65;
-        setBoundsAndApplyScaling(&timeSliders[i], 20, y, 80, 80);
-        setBoundsAndApplyScaling(&feedbackSliders[i], 160, y, 80, 80);
-        setBoundsAndApplyScaling(&mixSliders[i], 300, y, 80, 80);
+        setBoundsAndApplyScaling(&timeSliders[i], 20, y, 80, 80, true);
+        setBoundsAndApplyScaling(&feedbackSliders[i], 160, y, 80, 80, true);
+        setBoundsAndApplyScaling(&mixSliders[i], 300, y, 80, 80, true);
     }
 }
 
