@@ -6,6 +6,7 @@ HayesFDNReverbAudioProcessorEditor::HayesFDNReverbAudioProcessorEditor(HayesFDNR
 ,   audioProcessor { p }
 ,   presetBar { p }
 {
+    setLookAndFeel(&customLookAndFeel);
     addAllGUIComponents();
 }
 
@@ -16,7 +17,6 @@ HayesFDNReverbAudioProcessorEditor::~HayesFDNReverbAudioProcessorEditor()
 
 void HayesFDNReverbAudioProcessorEditor::addAllGUIComponents()
 {
-    setLookAndFeel(&customLookAndFeel);
     numDelayLinesLabel.setText("Number of Delay Lines", juce::NotificationType::dontSendNotification);
     timeLabel.setText("Time", juce::NotificationType::dontSendNotification);
     feedbackLabel.setText("Feedback", juce::NotificationType::dontSendNotification);

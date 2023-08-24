@@ -40,8 +40,8 @@ private:
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> feedbackAttachment[DELAY_LINE_COUNT];
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> mixAttachment[DELAY_LINE_COUNT];
 
-    int defaultWidth = 400;
-    int defaultHeight = 860;
+    static constexpr int defaultWidth  { 400 };
+    static constexpr int defaultHeight { 860 };
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (HayesFDNReverbAudioProcessorEditor)
 };
