@@ -1,6 +1,7 @@
 #pragma once
-#include <JuceHeader.h>
+
 #include "../../Common/BaseAudioProcessor.h"
+
 
 inline static const double TAIL_LENGTH { 2.0 };
 inline static const int DELAY_LINE_COUNT { 8 };

@@ -1,6 +1,8 @@
+#include "../../Common/Utilities.h"
+
 #include "HayesFDNReverbAudioProcessor.h"
 #include "HayesFDNReverbAudioProcessorEditor.h"
-#include "../../Common/Utilities.h"
+
 
 HayesFDNReverbAudioProcessor::HayesFDNReverbAudioProcessor()
 :   BaseAudioProcessor { createParameterLayout() }

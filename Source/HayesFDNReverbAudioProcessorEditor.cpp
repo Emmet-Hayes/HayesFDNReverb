@@ -1,6 +1,7 @@
 #include "HayesFDNReverbAudioProcessor.h"
 #include "HayesFDNReverbAudioProcessorEditor.h"
 
+
 HayesFDNReverbAudioProcessorEditor::HayesFDNReverbAudioProcessorEditor(HayesFDNReverbAudioProcessor& p)
 :   AudioProcessorEditor { &p }
 ,   audioProcessor { p }
